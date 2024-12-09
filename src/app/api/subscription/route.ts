@@ -1,8 +1,8 @@
 import { auth } from '@/utils/auth';
 import { db } from '@/utils/db';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const data = await request.json();
   const session = await auth();
 

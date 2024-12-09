@@ -17,67 +17,44 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { statusOptions } from '@/constants/statusIndicator';
-import { api } from '@/utils/api';
-import { formatCurrency } from '@/utils/form';
 import { NewSubscriptionSchema, newSubscriptionSchema } from '@/utils/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Subscription } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
-import { toast } from 'sonner';
 
 interface NewSignatureFormProps {
-  setIsOpenNewSignature: (isOpen: boolean) => void;
+  onSubmit: (data: NewSubscriptionSchema) => void;
+  subscription?: Subscription;
 }
 
-export function NewSignatureForm({
-  setIsOpenNewSignature,
+export function SignatureForm({
+  onSubmit,
+  subscription,
 }: NewSignatureFormProps) {
-  const router = useRouter();
   const form = useForm<NewSubscriptionSchema>({
     resolver: zodResolver(newSubscriptionSchema),
     defaultValues: {
-      name: '',
-      value: '',
-      status: 'Ativo',
-      category: '',
-      subscriptionPlan: '',
+      name: subscription?.name || '',
+      value: subscription?.value?.toString() || '',
+      status: subscription?.status || 'Ativo',
+      category: subscription?.category || '',
+      subscriptionPlan: subscription?.subscriptionPlan || '',
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: NewSubscriptionSchema) => {
-      const newSubscription = {
-        ...data,
-        value: formatCurrency(data.value),
-      };
-      return api.post('/subscription', newSubscription);
-    },
-    onSuccess: () => {
-      toast.success('Assinatura adicionada com sucesso');
-      router.refresh();
-      form.reset();
-      setIsOpenNewSignature(false);
-    },
-    onError: () => {
-      toast.error('Erro ao adicionar assinatura');
-    },
-  });
-
-  function onSubmit(data: NewSubscriptionSchema) {
-    const newSubscription = {
-      ...data,
-    };
-
-    mutation.mutate(newSubscription);
+  function handleSubmit(data: NewSubscriptionSchema) {
+    onSubmit(data);
+    form.reset();
   }
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 mt-4'>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className='space-y-4 mt-4'
+        >
           <FormField
             control={form.control}
             name='name'
@@ -190,16 +167,9 @@ export function NewSignatureForm({
           />
 
           <div>
-            <Button
-              className='w-full h-input rounded-2xl mt-4'
-              type='submit'
-              disabled={mutation.isPending}
-            >
-              {mutation.isPending && (
-                <Loader2 className='w-4 h-4 animate-spin' />
-              )}
+            <Button className='w-full h-input rounded-2xl mt-4' type='submit'>
               <span className='font-roboto font-regular text-16 text-white'>
-                Adicionar assinatura
+                {subscription ? 'Editar assinatura' : 'Adicionar assinatura'}
               </span>
             </Button>
           </div>

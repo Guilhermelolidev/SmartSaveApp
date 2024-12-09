@@ -8,35 +8,42 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { icons } from '@/constants/images';
 import { api } from '@/utils/api';
 import { formatCurrency } from '@/utils/form';
 import { NewSubscriptionSchema } from '@/utils/schemas';
+import { Subscription } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { SignatureForm } from './Forms/SignatureForm';
 
-export default function NewSignature() {
+interface EditSignatureProps {
+  subscription: Subscription;
+}
+
+export default function EditSignature({ subscription }: EditSignatureProps) {
   const [isOpenNewSignature, setIsOpenNewSignature] = useState(false);
   const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: async (data: NewSubscriptionSchema) => {
-      const newSubscription = {
+      const editedSubscription = {
         ...data,
         value: formatCurrency(data.value),
       };
-      return api.post('/subscription', newSubscription);
+      return api.put(`/subscription/${subscription.id}`, editedSubscription);
     },
 
     onSuccess: () => {
-      toast.success('Assinatura adicionada com sucesso');
+      toast.success('Assinatura editada com sucesso');
       router.refresh();
       setIsOpenNewSignature(false);
     },
     onError: () => {
-      toast.error('Erro ao adicionar assinatura');
+      toast.error('Erro ao editar assinatura');
     },
   });
 
@@ -51,21 +58,19 @@ export default function NewSignature() {
   return (
     <Sheet open={isOpenNewSignature} onOpenChange={setIsOpenNewSignature}>
       <SheetTrigger asChild>
-        <Button variant='primary' size='btn' className='w-fit px-6'>
-          <span className='font-roboto font-bold text-16 text-white'>
-            Nova Assinatura
-          </span>
+        <Button variant='transparentIcon' size='icon' className='shrink-0'>
+          <Image src={icons.edit} alt='Editar' width={20} height={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent className='w-full md:w-[540px]' side='left'>
+      <SheetContent className='w-full md:w-[540px]' side='right'>
         <SheetHeader>
           <SheetTitle className='mt-2'>
             <span className='font-roboto font-bold text-20 text-black'>
-              Nova Assinatura
+              Editar Assinatura
             </span>
           </SheetTitle>
         </SheetHeader>
-        <SignatureForm onSubmit={onSubmit} />
+        <SignatureForm onSubmit={onSubmit} subscription={subscription} />
       </SheetContent>
     </Sheet>
   );

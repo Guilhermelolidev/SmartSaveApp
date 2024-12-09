@@ -41,7 +41,13 @@ export default async function DashPage() {
           <NewSignature />
         </div>
 
-        <SubscriptionsSummary stats={stats} />
+        <div className='flex flex-col gap-2 items-end'>
+          <SubscriptionsSummary stats={stats} />
+          <span className='font-roboto font-regular text-16 text-gray-500'>
+            Dica: Clique no botão <span className='font-bold'>Ativo</span> para
+            alterar o status da assinatura
+          </span>
+        </div>
       </div>
 
       <Table>
