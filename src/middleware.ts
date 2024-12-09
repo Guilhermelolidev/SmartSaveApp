@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from './utils/auth';
 
-export function middleware(request: NextRequest) {
-  const isLogged = request.cookies.has('authjs.session-token');
+export async function middleware(request: NextRequest) {
+  const isLogged = await auth();
   const { pathname } = request.nextUrl;
   const isProtectedRoute = pathname.startsWith('/dash');
   const isAuthRoute = pathname === '/signin' || pathname === '/signup';
