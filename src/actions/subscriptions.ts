@@ -1,37 +1,45 @@
 'use server';
 
+import { Subscription } from '@/models/Subscription';
 import { auth } from '@/utils/auth';
-import { db } from '@/utils/db';
+import { connectToDatabase } from '@/utils/db/mongodb';
+import { Types } from 'mongoose';
 
-import { SubscriptionStatus } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 
 export async function getSubscriptions() {
-  const session = await auth();
+  await connectToDatabase();
+  try {
+    const session = await auth();
 
-  if (!session) {
-    throw new Error('Unauthorized');
+    if (!session?.user?.id) {
+      throw new Error('Usuário não autenticado');
+    }
+
+    console.log(session?.user);
+
+    const response = await Subscription.find({
+      userId: session?.user?.id,
+    });
+
+    return JSON.parse(JSON.stringify(response));
+  } catch (error) {
+    console.error('Erro ao buscar assinaturas:', error);
+    throw error;
   }
-
-  const response = await db.subscription.findMany({
-    where: { userId: session?.user?.id },
-  });
-
-  return response;
 }
 
-export async function removeSubscriptionAction(id: string) {
+export async function removeSubscriptionAction(_id: Types.ObjectId) {
+  await connectToDatabase();
   const session = await auth();
 
   if (!session) {
     throw new Error('Unauthorized');
   }
 
-  const subscription = await db.subscription.delete({
-    where: {
-      id,
-      userId: session?.user?.id,
-    },
+  const subscription = await Subscription.deleteOne({
+    _id,
+    userId: session?.user?.id,
   });
 
   revalidatePath('/dash');
@@ -39,27 +47,21 @@ export async function removeSubscriptionAction(id: string) {
   return subscription;
 }
 
-export async function updateStatusAction(
-  id: string,
-  status: SubscriptionStatus
-) {
+export async function updateStatusAction(_id: Types.ObjectId, status: string) {
+  await connectToDatabase();
   const session = await auth();
+
   try {
-    const subscription = await db.subscription.findFirst({
-      where: {
-        id,
-        userId: session?.user?.id,
-      },
+    const subscription = await Subscription.findOne({
+      _id,
+      userId: new Types.ObjectId(session?.user?.id),
     });
 
     if (!subscription) {
       return { error: 'Subscription not found' };
     }
 
-    await db.subscription.update({
-      where: { id },
-      data: { status },
-    });
+    await Subscription.updateOne({ _id }, { status });
 
     revalidatePath('/dash');
   } catch (error) {

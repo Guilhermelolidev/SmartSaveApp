@@ -1,7 +1,8 @@
+import { User } from '@/models/User';
 import { compare } from 'bcryptjs';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { db } from './db';
+import Google from 'next-auth/providers/google';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -11,13 +12,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Credentials({
       authorize: async credentials => {
         const { email, password } = credentials;
-
-        let user = null;
-
-        user = await db.user.findUnique({
-          where: {
-            email: email as string,
-          },
+        const user = await User.findOne({
+          email: email as string,
         });
 
         if (!user) {
@@ -36,6 +32,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: user.email,
         };
       },
+    }),
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
   callbacks: {

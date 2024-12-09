@@ -1,6 +1,6 @@
 'use client';
 
-import { loginAction } from '@/actions/auth';
+import { loginAction, signInWithGoogleAction } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -29,7 +29,6 @@ export default function SignInPage() {
     },
     null
   );
-
   return (
     <div className='flex flex-col h-full justify-center items-center'>
       <form
@@ -74,10 +73,16 @@ export default function SignInPage() {
         <Separator className='w-full my-10' />
 
         <div className='flex gap-4 items-center'>
-          <Button variant='icon' size='icon' type='button'>
+          <Button
+            variant='icon'
+            size='icon'
+            type='button'
+            onClick={signInWithGoogleAction}
+            disabled
+          >
             <Image src={images.google} alt='google' width={27} height={27} />
           </Button>
-          <Button variant='icon' size='icon' type='button'>
+          <Button variant='icon' size='icon' type='button' disabled>
             <Image src={images.x} alt='x' width={24} height={24} />
           </Button>
         </div>

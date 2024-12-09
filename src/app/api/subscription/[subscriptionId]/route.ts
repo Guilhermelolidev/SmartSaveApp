@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { Subscription } from '@/models';
 import { auth } from '@/utils/auth';
-import { db } from '@/utils/db';
+import { connectToDatabase } from '@/utils/db/mongodb';
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ subscriptionId: string }> }
 ) {
+  await connectToDatabase();
   const data = await request.json();
   const { subscriptionId } = await params;
   const session = await auth();
@@ -16,12 +18,12 @@ export async function PUT(
   }
 
   try {
-    const subscription = await db.subscription.update({
-      where: { id: subscriptionId },
-      data: {
+    const subscription = await Subscription.updateOne(
+      { _id: subscriptionId },
+      {
         ...data,
-      },
-    });
+      }
+    );
 
     return NextResponse.json(subscription);
   } catch (error) {

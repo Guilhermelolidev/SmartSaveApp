@@ -1,8 +1,13 @@
 import { ZodIssue } from 'zod';
 
-export const hasError = (errors: ZodIssue[] | undefined, path: string) => {
+export const hasError = (
+  errors: ZodIssue[] | undefined | string,
+  path: string
+) => {
   if (!errors) return null;
-  return errors?.find(item => item.path.includes(path))?.message;
+  return errors instanceof Array
+    ? errors?.find(item => item.path.includes(path))?.message
+    : errors;
 };
 
 export const formatCurrency = (value: string) => {

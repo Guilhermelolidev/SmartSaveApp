@@ -50,20 +50,6 @@ export default function LinksMobile() {
               </span>
             </Link>
           </Button>
-          <Button
-            variant='transparent'
-            size='btn'
-            onClick={() => setOpen(false)}
-          >
-            <Link
-              href='/dash/categorias'
-              className='px-2 flex gap-2 items-center'
-            >
-              <span className='font-roboto font-bold text-20 text-blue-600'>
-                Categorias
-              </span>
-            </Link>
-          </Button>
         </nav>
       </SheetContent>
     </Sheet>

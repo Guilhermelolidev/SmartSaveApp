@@ -9,12 +9,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { statusOptions } from '@/constants/statusIndicator';
-import { Subscription } from '@/entities/subscriptions';
+import { ISubscription } from '@/models/Subscription';
 import { cn } from '@/utils/cn';
-import { SubscriptionStatus } from '@prisma/client';
 
 interface StatusIndicatorProps {
-  subscription: Subscription;
+  subscription: ISubscription;
 }
 
 export default function StatusIndicator({
@@ -22,24 +21,24 @@ export default function StatusIndicator({
 }: StatusIndicatorProps) {
   const { status, id } = subscription;
 
-  const getBgBadge = (status: SubscriptionStatus) => {
+  const getBgBadge = (status: string) => {
     switch (status) {
-      case SubscriptionStatus.Ativo:
+      case 'Ativo':
         return 'bg-green-400';
-      case SubscriptionStatus.Cancelado:
+      case 'Cancelado':
         return 'bg-red-400';
-      case SubscriptionStatus.Pausado:
+      case 'Pausado':
         return 'bg-yellow-400';
     }
   };
 
-  const getTextColor = (status: SubscriptionStatus) => {
+  const getTextColor = (status: string) => {
     switch (status) {
-      case SubscriptionStatus.Ativo:
+      case 'Ativo':
         return 'text-green-400';
-      case SubscriptionStatus.Cancelado:
+      case 'Cancelado':
         return 'text-red-400';
-      case SubscriptionStatus.Pausado:
+      case 'Pausado':
         return 'text-yellow-400';
     }
   };

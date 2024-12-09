@@ -1,8 +1,11 @@
+import { Subscription } from '@/models/Subscription';
 import { auth } from '@/utils/auth';
-import { db } from '@/utils/db';
+import { connectToDatabase } from '@/utils/db/mongodb';
+import { Types } from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
+  await connectToDatabase();
   const data = await request.json();
   const session = await auth();
 
@@ -12,15 +15,12 @@ export async function POST(request: NextRequest) {
 
   const newSubscription = {
     ...data,
-    userId: session?.user?.id,
-    subscriptionPlan: 'Mensal',
+    userId: new Types.ObjectId(session?.user?.id),
     imageUrl: '',
   };
 
   try {
-    const subscription = await db.subscription.create({
-      data: newSubscription,
-    });
+    const subscription = await new Subscription(newSubscription).save();
 
     return NextResponse.json(subscription);
   } catch (error) {

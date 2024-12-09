@@ -1,19 +1,17 @@
-import { SubscriptionStatus } from '@prisma/client';
-
 export const statusOptions: {
-  key: SubscriptionStatus;
+  key: string;
   action: string;
 }[] = [
   {
-    key: SubscriptionStatus.Ativo,
+    key: 'Ativo',
     action: 'Ativar',
   },
   {
-    key: SubscriptionStatus.Cancelado,
+    key: 'Cancelado',
     action: 'Cancelar',
   },
   {
-    key: SubscriptionStatus.Pausado,
+    key: 'Pausado',
     action: 'Pausar',
   },
 ];

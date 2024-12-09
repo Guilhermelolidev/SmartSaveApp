@@ -1,11 +1,16 @@
 'use server';
 
+import { User } from '@/models/User';
 import { signIn, signOut } from '@/utils/auth';
-import { db } from '@/utils/db';
+import { connectToDatabase } from '@/utils/db/mongodb';
 import { signInSchema, signUpSchema } from '@/utils/schemas';
 import { hash } from 'bcryptjs';
 import { AuthError, CredentialsSignin } from 'next-auth';
 import { redirect } from 'next/navigation';
+
+export async function signInWithGoogleAction() {
+  await signIn('google');
+}
 
 export async function loginAction(data: FormData) {
   const {
@@ -21,7 +26,6 @@ export async function loginAction(data: FormData) {
   }
 
   const { email, password } = parsedData;
-
   try {
     await signIn('credentials', {
       email,
@@ -33,7 +37,6 @@ export async function loginAction(data: FormData) {
     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
       throw error;
     }
-
     if (error instanceof AuthError || error instanceof CredentialsSignin) {
       throw new Error('Credenciais inválidas');
     }
@@ -42,7 +45,9 @@ export async function loginAction(data: FormData) {
   }
 }
 
-export async function signUpAction(prev: any, data: FormData) {
+export async function signUpAction(prevState: any, data: FormData) {
+  await connectToDatabase();
+
   const {
     success,
     data: parsedData,
@@ -56,15 +61,20 @@ export async function signUpAction(prev: any, data: FormData) {
   }
 
   const { name, email, password } = parsedData;
+
+  const user = await User.findOne({ email });
+
+  if (user) return;
+
   const hashedPassword = await hash(password, 10);
 
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
+  const newUser = new User({
+    name,
+    email,
+    password: hashedPassword,
   });
+
+  await newUser.save();
 
   redirect('/signin');
 }

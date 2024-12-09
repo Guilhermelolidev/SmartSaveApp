@@ -63,7 +63,7 @@ export default function SignUpPage() {
           </div>
 
           <Button className='w-full h-btn' type='submit' disabled={isPending}>
-            {isPending && <Loader2 className='animate-spin' />}
+            {isPending && <Loader2 className='w-4 h-4 animate-spin' />}
             <span className='font-roboto font-bold text-18'>Criar conta</span>
           </Button>
         </div>
@@ -71,10 +71,10 @@ export default function SignUpPage() {
         <Separator className='w-full my-10' />
 
         <div className='flex gap-4 items-center'>
-          <Button variant='icon' size='icon' type='button'>
+          <Button variant='icon' size='icon' type='button' disabled>
             <Image src={images.google} alt='google' width={27} height={27} />
           </Button>
-          <Button variant='icon' size='icon' type='button'>
+          <Button variant='icon' size='icon' type='button' disabled>
             <Image src={images.x} alt='x' width={24} height={24} />
           </Button>
         </div>

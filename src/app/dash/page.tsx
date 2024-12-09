@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Subscription, SubscriptionStatus } from '@prisma/client';
+import { ISubscription } from '@/models/Subscription';
 import Image from 'next/image';
 import Actions from './_components/Actions';
 import NewSignature from './_components/NewSignature';
@@ -15,10 +15,10 @@ import StatusIndicator from './_components/StatusIndicator';
 import SubscriptionsSummary from './_components/SubscriptionsSummary';
 
 export default async function DashPage() {
-  const subscriptions = await getSubscriptions();
+  const subscriptions: ISubscription[] = await getSubscriptions();
 
   const activeSubscriptions = subscriptions.filter(
-    (sub: Subscription) => sub.status === SubscriptionStatus.Ativo
+    (sub: ISubscription) => sub.status === 'Ativo'
   );
 
   const stats = {
