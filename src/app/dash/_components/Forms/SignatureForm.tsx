@@ -20,17 +20,20 @@ import { statusOptions } from '@/constants/statusIndicator';
 import { NewSubscriptionSchema, newSubscriptionSchema } from '@/utils/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Subscription } from '@prisma/client';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 
 interface NewSignatureFormProps {
   onSubmit: (data: NewSubscriptionSchema) => void;
   subscription?: Subscription;
+  isLoading: boolean;
 }
 
 export function SignatureForm({
   onSubmit,
   subscription,
+  isLoading,
 }: NewSignatureFormProps) {
   const form = useForm<NewSubscriptionSchema>({
     resolver: zodResolver(newSubscriptionSchema),
@@ -45,7 +48,6 @@ export function SignatureForm({
 
   function handleSubmit(data: NewSubscriptionSchema) {
     onSubmit(data);
-    form.reset();
   }
 
   return (
@@ -167,10 +169,18 @@ export function SignatureForm({
           />
 
           <div>
-            <Button className='w-full h-input rounded-2xl mt-4' type='submit'>
-              <span className='font-roboto font-regular text-16 text-white'>
-                {subscription ? 'Editar assinatura' : 'Adicionar assinatura'}
-              </span>
+            <Button
+              className='w-full h-input rounded-2xl mt-4'
+              type='submit'
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className='w-4 h-4 animate-spin' />
+              ) : (
+                <span className='font-roboto font-regular text-16 text-white'>
+                  {subscription ? 'Editar assinatura' : 'Adicionar assinatura'}
+                </span>
+              )}
             </Button>
           </div>
         </form>

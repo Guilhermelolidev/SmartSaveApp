@@ -12,7 +12,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Subscription } from '@prisma/client';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function RemoveSubscriptionAction({
@@ -21,9 +23,12 @@ export default function RemoveSubscriptionAction({
   subscription: Subscription;
 }) {
   const { id, name } = subscription;
+  const [loading, setLoading] = useState(false);
 
   const handleRemoveSubscription = async () => {
+    setLoading(true);
     const subscription = await removeSubscriptionAction(id);
+    setLoading(false);
 
     toast.success(`Assinatura ${subscription.name} removida com sucesso`);
   };
@@ -46,9 +51,13 @@ export default function RemoveSubscriptionAction({
             className='w-full'
             onClick={handleRemoveSubscription}
           >
-            <span className='font-roboto font-regular text-16 text-white'>
-              Sim
-            </span>
+            {loading ? (
+              <Loader2 className='w-4 h-4 animate-spin' />
+            ) : (
+              <span className='font-roboto font-regular text-16 text-white'>
+                Sim
+              </span>
+            )}
           </Button>
         </div>
       </PopoverContent>

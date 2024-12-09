@@ -29,11 +29,10 @@ export default function NewSignature() {
       };
       return api.post('/subscription', newSubscription);
     },
-
     onSuccess: () => {
-      toast.success('Assinatura adicionada com sucesso');
-      router.refresh();
       setIsOpenNewSignature(false);
+      router.refresh();
+      toast.success('Assinatura adicionada com sucesso');
     },
     onError: () => {
       toast.error('Erro ao adicionar assinatura');
@@ -65,7 +64,7 @@ export default function NewSignature() {
             </span>
           </SheetTitle>
         </SheetHeader>
-        <SignatureForm onSubmit={onSubmit} />
+        <SignatureForm onSubmit={onSubmit} isLoading={mutation.isPending} />
       </SheetContent>
     </Sheet>
   );

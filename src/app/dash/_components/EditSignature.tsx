@@ -34,12 +34,13 @@ export default function EditSignature({ subscription }: EditSignatureProps) {
         ...data,
         value: formatCurrency(data.value),
       };
+
       return api.put(`/subscription/${subscription.id}`, editedSubscription);
     },
     onSuccess: () => {
       setIsOpenNewSignature(false);
-      toast.success('Assinatura editada com sucesso');
       router.refresh();
+      toast.success('Assinatura editada com sucesso');
     },
     onError: () => {
       toast.error('Erro ao editar assinatura');
@@ -69,7 +70,11 @@ export default function EditSignature({ subscription }: EditSignatureProps) {
             </span>
           </SheetTitle>
         </SheetHeader>
-        <SignatureForm onSubmit={onSubmit} subscription={subscription} />
+        <SignatureForm
+          onSubmit={onSubmit}
+          subscription={subscription}
+          isLoading={mutation.isPending}
+        />
       </SheetContent>
     </Sheet>
   );
