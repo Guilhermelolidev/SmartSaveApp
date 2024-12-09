@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 export const db = new PrismaClient();
 async function main() {
-  //await db.user.deleteMany();
+  await db.subscription.deleteMany();
 }
 main()
   .catch(async e => {
