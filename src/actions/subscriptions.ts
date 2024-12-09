@@ -20,7 +20,7 @@ export async function getSubscriptions() {
   return response;
 }
 
-export const removeSubscriptionAction = async (id: string) => {
+export async function removeSubscriptionAction(id: string) {
   const session = await auth();
 
   if (!session) {
@@ -37,12 +37,12 @@ export const removeSubscriptionAction = async (id: string) => {
   revalidatePath('/dash');
 
   return subscription;
-};
+}
 
-export const updateStatusAction = async (
+export async function updateStatusAction(
   id: string,
   status: SubscriptionStatus
-) => {
+) {
   const session = await auth();
   try {
     const subscription = await db.subscription.findFirst({
@@ -65,4 +65,4 @@ export const updateStatusAction = async (
   } catch (error) {
     console.log(error);
   }
-};
+}

@@ -36,11 +36,10 @@ export default function EditSignature({ subscription }: EditSignatureProps) {
       };
       return api.put(`/subscription/${subscription.id}`, editedSubscription);
     },
-
     onSuccess: () => {
+      setIsOpenNewSignature(false);
       toast.success('Assinatura editada com sucesso');
       router.refresh();
-      setIsOpenNewSignature(false);
     },
     onError: () => {
       toast.error('Erro ao editar assinatura');
