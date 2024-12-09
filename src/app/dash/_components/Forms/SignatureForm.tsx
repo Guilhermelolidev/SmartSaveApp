@@ -178,7 +178,7 @@ export function SignatureForm({
                 <Loader2 className='w-4 h-4 animate-spin' />
               ) : (
                 <span className='font-roboto font-regular text-16 text-white'>
-                  {subscription ? 'Editar assinatura' : 'Adicionar assinatura'}
+                  {subscription ? 'Atualizar' : 'Adicionar'}
                 </span>
               )}
             </Button>

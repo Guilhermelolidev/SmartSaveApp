@@ -58,7 +58,7 @@ export async function signUpAction(prev: any, data: FormData) {
   const { name, email, password } = parsedData;
   const hashedPassword = await hash(password, 10);
 
-  const user = await db.user.create({
+  await db.user.create({
     data: {
       name,
       email,
