@@ -1,6 +1,5 @@
 'use server';
 
-import { dataSeeds } from '@/constants/seed';
 import { signIn, signOut } from '@/utils/auth';
 import { db } from '@/utils/db';
 import { signInSchema, signUpSchema } from '@/utils/schemas';
@@ -65,13 +64,6 @@ export async function signUpAction(prev: any, data: FormData) {
       email,
       password: hashedPassword,
     },
-  });
-
-  await db.subscription.createMany({
-    data: dataSeeds.map((subscription: any) => ({
-      ...subscription,
-      userId: user.id,
-    })),
   });
 
   redirect('/signin');
