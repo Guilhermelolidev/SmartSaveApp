@@ -29,7 +29,7 @@ export default function SignUpPage() {
         <div className='flex flex-col items-center justify-center gap-4 w-full mt-4'>
           <div className='flex flex-col items-start justify-center gap-1 w-full'>
             <Input
-              placeholder='Donald J. Trump'
+              placeholder='digite seu nome...'
               name='name'
               error={hasError(state?.error, 'name')}
             />
@@ -40,7 +40,7 @@ export default function SignUpPage() {
 
           <div className='flex flex-col items-start justify-center gap-1 w-full'>
             <Input
-              placeholder='donaldtrump@gmail.com'
+              placeholder='digite seu email...'
               name='email'
               type='email'
               error={hasError(state?.error, 'email')}

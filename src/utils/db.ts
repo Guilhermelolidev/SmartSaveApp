@@ -1,16 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 
-export const db = new PrismaClient();
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
 
-async function main() {
-  //await db.user.deleteMany();
-}
+export const db = globalForPrisma.prisma ?? new PrismaClient();
 
-main()
-  .catch(async e => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await db.$disconnect();
-  });
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db;

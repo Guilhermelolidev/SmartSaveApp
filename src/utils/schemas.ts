@@ -14,3 +14,13 @@ export const signInSchema = z.object({
 });
 
 export type SignInSchema = z.infer<typeof signInSchema>;
+
+export const newSubscriptionSchema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório'),
+  value: z.string().min(1, 'Valor é obrigatório'),
+  status: z.enum(['Ativo', 'Cancelado', 'Pausado']),
+  category: z.string().min(1, 'Categoria é obrigatório'),
+  subscriptionPlan: z.string().min(1, 'Plano é obrigatório'),
+});
+
+export type NewSubscriptionSchema = z.infer<typeof newSubscriptionSchema>;

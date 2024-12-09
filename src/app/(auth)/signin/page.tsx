@@ -44,7 +44,7 @@ export default function SignInPage() {
         <div className='flex flex-col items-center justify-center gap-4 w-full mt-4'>
           <div className='flex flex-col items-start justify-center gap-1 w-full'>
             <Input
-              placeholder='donaldtrump@gmail.com'
+              placeholder='digite seu email...'
               name='email'
               error={hasError(state?.error, 'email')}
             />

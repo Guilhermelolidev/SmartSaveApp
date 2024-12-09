@@ -1,7 +1,15 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/dyj9wiami/**', // substitua 'dyj9wiami' pelo seu cloud_name
+      },
+    ],
+  },
 };
 
 export default nextConfig;

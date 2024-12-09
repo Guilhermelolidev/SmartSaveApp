@@ -1,7 +1,8 @@
 'use server';
 
-import { signIn } from '@/utils/auth';
+import { signIn, signOut } from '@/utils/auth';
 import { db } from '@/utils/db';
+import { dataSeeds } from '@/utils/prisma/seed';
 import { signInSchema, signUpSchema } from '@/utils/schemas';
 import { hash } from 'bcryptjs';
 import { AuthError, CredentialsSignin } from 'next-auth';
@@ -41,7 +42,7 @@ export async function loginAction(data: FormData) {
   }
 }
 
-export async function signUpAction(prevState: any, data: FormData) {
+export async function signUpAction(prev: any, data: FormData) {
   const {
     success,
     data: parsedData,
@@ -57,7 +58,7 @@ export async function signUpAction(prevState: any, data: FormData) {
   const { name, email, password } = parsedData;
   const hashedPassword = await hash(password, 10);
 
-  await db.user.create({
+  const user = await db.user.create({
     data: {
       name,
       email,
@@ -65,5 +66,16 @@ export async function signUpAction(prevState: any, data: FormData) {
     },
   });
 
+  await db.subscription.createMany({
+    data: dataSeeds.map(subscription => ({
+      ...subscription,
+      userId: user.id,
+    })),
+  });
+
   redirect('/signin');
+}
+
+export async function signOutAction() {
+  await signOut();
 }

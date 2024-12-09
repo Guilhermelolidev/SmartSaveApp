@@ -41,7 +41,7 @@ export default {
         },
         yellow: {
           400: '#FACC15',
-          600: '#DC2626',
+          500: '#D97706',
         },
       },
       fontFamily: {
@@ -69,5 +69,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 } satisfies Config;

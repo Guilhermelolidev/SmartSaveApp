@@ -1,12 +1,17 @@
-export default function DashLayout({
+import { auth } from '@/utils/auth';
+import AppBar from './_components/AppBar';
+
+export default async function DashLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
-    <div className='flex flex-col w-full h-full'>
-        <h1>header</h1>
-      <div className='flex flex-col w-full h-full'>{children}</div>
+    <div>
+      <AppBar session={session} />
+      <div>{children}</div>
     </div>
   );
 }

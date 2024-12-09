@@ -12,7 +12,9 @@ const buttonVariants = cva(
         primary: 'bg-blue-600 text-white hover:bg-blue-700 rounded-default',
         destructive: 'bg-red-400 text-white hover:bg-red-600 rounded-default',
         transparent:
-          'bg-transparent text-black hover:bg-gray-50 rounded-default p-4',
+          'bg-transparent text-black hover:bg-gray-50 p-4 rounded-default ',
+        transparentIcon:
+          'bg-transparent text-black hover:bg-gray-200 p-4 rounded-full ',
         icon: 'bg-transparent text-black hover:bg-gray-50 rounded-full border border-slate-400',
       },
       size: {

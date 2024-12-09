@@ -8,11 +8,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+
+  subscriptions Subscription[]
+}
+
+enum SubscriptionStatus {
+  Ativo
+  Cancelado
+  Pausado
+}
+
+model Subscription {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  value Float
+  subscriptionPlan String
+  category String
+  status SubscriptionStatus @default(Ativo)
+  imageUrl String?
+  createdAt DateTime @default(now())
+
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
 }
