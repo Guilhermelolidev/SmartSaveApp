@@ -16,8 +16,6 @@ export async function getSubscriptions() {
       throw new Error('Usuário não autenticado');
     }
 
-    console.log(session?.user);
-
     const response = await Subscription.find({
       userId: session?.user?.id,
     });

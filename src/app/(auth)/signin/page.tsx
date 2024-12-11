@@ -16,7 +16,6 @@ export default function SignInPage() {
     async (_prevState: any, formData: FormData) => {
       try {
         const response = await loginAction(formData);
-
         return response;
       } catch (error) {
         if (error instanceof Error && error.message !== 'NEXT_REDIRECT') {
@@ -29,6 +28,7 @@ export default function SignInPage() {
     },
     null
   );
+
   return (
     <div className='flex flex-col h-full justify-center items-center'>
       <form

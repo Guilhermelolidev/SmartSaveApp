@@ -50,7 +50,7 @@ export default function NewSignature() {
   return (
     <Sheet open={isOpenNewSignature} onOpenChange={setIsOpenNewSignature}>
       <SheetTrigger asChild>
-        <Button variant='primary' size='btn' className='w-fit px-6'>
+        <Button variant='primary' size='btn' className='w-full px-6 md:w-fit'>
           <span className='font-roboto font-bold text-16 text-white'>
             Nova Assinatura
           </span>

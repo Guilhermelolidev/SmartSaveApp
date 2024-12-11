@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Subscription } from '@prisma/client';
+import { ISubscription } from '@/models/Subscription';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -20,17 +20,17 @@ import { toast } from 'sonner';
 export default function RemoveSubscriptionAction({
   subscription,
 }: {
-  subscription: Subscription;
+  subscription: ISubscription;
 }) {
   const { id, name } = subscription;
   const [loading, setLoading] = useState(false);
 
   const handleRemoveSubscription = async () => {
     setLoading(true);
-    const subscription = await removeSubscriptionAction(id);
+    await removeSubscriptionAction(id);
     setLoading(false);
 
-    toast.success(`Assinatura ${subscription.name} removida com sucesso`);
+    toast.success(`Assinatura ${name} removida com sucesso`);
   };
 
   return (

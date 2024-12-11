@@ -32,9 +32,9 @@ export default async function DashPage() {
 
   return (
     <div className='flex flex-col gap-4 w-full md:px-20 py-5'>
-      <div className='flex justify-between items-center'>
-        <div className='flex flex-col gap-4'>
-          <h1 className='text-30 font-roboto font-regular text-black'>
+      <div className='flex flex-col items-center md:flex-row md:justify-between'>
+        <div className='flex flex-col gap-4 w-full px-8 md:px-0'>
+          <h1 className='text-30 font-roboto font-regular text-black text-center md:text-left'>
             Minhas Assinaturas
           </h1>
 

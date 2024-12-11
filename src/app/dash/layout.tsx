@@ -9,9 +9,9 @@ export default async function DashLayout({
   const session = await auth();
 
   return (
-    <div>
+    <>
       <AppBar session={session} />
       <div>{children}</div>
-    </div>
+    </>
   );
 }

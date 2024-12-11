@@ -3,6 +3,9 @@ export const images = {
   x: '/images/icons/x.png',
   logo: '/images/logo.png',
   user: '/images/jaca.jpeg',
+  loading: '/images/loading.jpeg',
+  robobg: '/images/robobg.png',
+  baloon: '/images/baloon.png',
 };
 
 export const icons = {
