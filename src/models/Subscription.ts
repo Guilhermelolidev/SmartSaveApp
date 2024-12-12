@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface ISubscription extends Document {
   name: string;
   value: number;
-  status: 'Ativo' | 'Inativo' | 'Atrasado';
+  status: 'Ativo' | 'Pausado' | 'Cancelado';
   category: string;
   subscriptionPlan: string;
   imageUrl?: string;

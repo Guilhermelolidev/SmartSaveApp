@@ -12,16 +12,16 @@ import { icons } from '@/constants/images';
 import { api } from '@/utils/api';
 import { formatCurrency } from '@/utils/form';
 import { NewSubscriptionSchema } from '@/utils/schemas';
-import { Subscription } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { SignatureForm } from './Forms/SignatureForm';
+import { ISubscription } from '@/models/Subscription';
 
 interface EditSignatureProps {
-  subscription: Subscription;
+  subscription: ISubscription;
 }
 
 export default function EditSignature({ subscription }: EditSignatureProps) {

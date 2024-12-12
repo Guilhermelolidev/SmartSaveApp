@@ -1,10 +1,10 @@
 import { TableCell } from '@/components/ui/table';
-import { Subscription } from '@prisma/client';
+import { ISubscription } from '@/models/Subscription';
 import EditSignature from './EditSignature';
 import RemoveSubscriptionAction from './RemoveSubscriptionAction';
 
 interface ActionsProps {
-  subscription: Subscription;
+  subscription: ISubscription;
 }
 
 export default function Actions({ subscription }: ActionsProps) {

@@ -17,16 +17,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { statusOptions } from '@/constants/statusIndicator';
+import { ISubscription } from '@/models/Subscription';
 import { NewSubscriptionSchema, newSubscriptionSchema } from '@/utils/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Subscription } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 
 interface NewSignatureFormProps {
   onSubmit: (data: NewSubscriptionSchema) => void;
-  subscription?: Subscription;
+  subscription?: ISubscription;
   isLoading: boolean;
 }
 
