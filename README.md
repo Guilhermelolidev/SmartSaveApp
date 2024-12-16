@@ -1,6 +1,12 @@
-TECHS
-next + nextAuth + + react query + tailwindcss + shadCN + react hook form
-server actions + mongodb
+- technology
+  * next
+  * nextAuth
+  * react query
+  * tailwindcss
+  * shadcn
+  * react hook form
+  * server actions / Server components
+  * mongodb
 
 - run application
   * pnpm install
